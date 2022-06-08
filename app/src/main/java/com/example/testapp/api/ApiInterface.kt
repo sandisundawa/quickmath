@@ -1,9 +1,6 @@
 package com.example.testapp.api
 
-import com.example.testapp.model.DetailMovie
-import com.example.testapp.model.MainGenre
-import com.example.testapp.model.Movie
-import com.example.testapp.model.Review
+import com.example.testapp.model.*
 import io.reactivex.Observable
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -32,5 +29,10 @@ interface ApiInterface {
         @Path("movie_id") movieId: Int?,
         @Query("api_key") apiKey: String?
     ): Observable<Review?>
+
+    @GET("movie/now_playing")
+    fun getNowPlaying(
+        @Query("api_key") apiKey: String?
+    ): Observable<NowPlayingResult?>
 
 }

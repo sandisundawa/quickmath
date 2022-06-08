@@ -2,6 +2,7 @@ package com.example.testapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -9,10 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapp.adapter.GenreAdapter
+import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.api.ApiClient
 import com.example.testapp.api.ApiInterface
 import com.example.testapp.architecture.GenreRepository
 import com.example.testapp.architecture.MainActivityViewModel
+import com.example.testapp.architecture.NowPlayingRepository
 import com.example.testapp.databinding.ActivityMainBinding
 import com.orhanobut.hawk.Hawk
 
@@ -20,6 +23,7 @@ private lateinit var binding: ActivityMainBinding
 
 private lateinit var viewModel: MainActivityViewModel
 lateinit var genreRepository: GenreRepository
+lateinit var nowPlayingRepository: NowPlayingRepository
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,12 +34,24 @@ class MainActivity : AppCompatActivity() {
 
         val apiService: ApiInterface = ApiClient.getClient()
         genreRepository = GenreRepository(apiService)
+        nowPlayingRepository = NowPlayingRepository(apiService)
         viewModel = getViewModel()
 
         viewModel.getListGenre()
+        viewModel.getListNowPlaying()
         setupGenre()
+        setupNowPlaying()
 
 
+    }
+
+    private fun setupNowPlaying() {
+        viewModel.listNowPlayingData?.observe(this, Observer { data ->
+            val nowPlayingAdapter = NowPlayingAdapter(data.nowPlaying, this)
+            binding.rvNowShowing.adapter = nowPlayingAdapter
+            binding.rvNowShowing.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            Log.d("kesini", data.nowPlaying.toString())
+        })
     }
 
     private fun setupGenre() {
@@ -57,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
-                return MainActivityViewModel(genreRepository) as T
+                return MainActivityViewModel(genreRepository, nowPlayingRepository) as T
             }
         })[MainActivityViewModel::class.java]
     }
