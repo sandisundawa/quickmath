@@ -15,7 +15,7 @@ class GenreDataSource (private val apiService : ApiInterface, private val compos
         get() = _networkState
 
     private val _genreResponse =  MutableLiveData<MainGenre>()
-    val genreResponse: LiveData<MainGenre>
+    val genreResponse: MutableLiveData<MainGenre>
         get() = _genreResponse
 
     fun fetchGenre(key: String) {

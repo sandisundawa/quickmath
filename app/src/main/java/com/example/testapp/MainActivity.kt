@@ -2,6 +2,7 @@ package com.example.testapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -30,14 +31,16 @@ class MainActivity : AppCompatActivity() {
         genreRepository = GenreRepository(apiService)
         viewModel = getViewModel()
 
+        viewModel.getListGenre()
         setupGenre()
 
 
     }
 
     private fun setupGenre() {
-        viewModel.genre.observe(this, Observer {
+        viewModel.listGenreData?.observe(this, Observer {
             val genreAdapter = GenreAdapter(it.genres, this)
+            Log.d("kesini", it.genres.toString())
             binding.rvGenre.adapter = genreAdapter
             binding.rvGenre.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL ,false)
 
