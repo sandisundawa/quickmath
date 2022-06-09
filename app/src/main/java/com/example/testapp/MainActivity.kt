@@ -1,6 +1,8 @@
 package com.example.testapp
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +19,9 @@ import com.example.testapp.architecture.GenreRepository
 import com.example.testapp.architecture.MainActivityViewModel
 import com.example.testapp.architecture.NowPlayingRepository
 import com.example.testapp.databinding.ActivityMainBinding
-import com.orhanobut.hawk.Hawk
+import com.example.testapp.helper.Warning
+import com.google.gson.Gson
+
 
 private lateinit var binding: ActivityMainBinding
 
@@ -51,6 +55,8 @@ class MainActivity : AppCompatActivity() {
             binding.rvNowShowing.adapter = nowPlayingAdapter
             binding.rvNowShowing.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
+
+            Warning.seeGeneralSuccessToast(this)
         })
     }
 
@@ -61,9 +67,19 @@ class MainActivity : AppCompatActivity() {
             binding.rvGenre.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
 
             binding.seeMoreGenre.setOnClickListener {
-                Hawk.init(this).build()
-                Hawk.put("dataGenre", data.genres)
+//                Hawk.init(this).build()
+//                Hawk.put("dataGenre", data.genres)
                 val toGenre = Intent(this, GenreActivity::class.java)
+
+                val sharedPreferences: SharedPreferences =
+                    this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+                val editor = sharedPreferences.edit()
+                val gson = Gson()
+                val json = gson.toJson(data.genres)
+                editor.putString("dataGenre", json)
+                editor.commit()
+
                 startActivity(toGenre)
             }
         })

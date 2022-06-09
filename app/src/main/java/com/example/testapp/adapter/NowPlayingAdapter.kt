@@ -13,12 +13,14 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.R
 import com.example.testapp.model.NowPlaying
 
-class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) : RecyclerView.Adapter<NowPlayingAdapter.MyViewHolder>() {
+class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) :
+    RecyclerView.Adapter<NowPlayingAdapter.MyViewHolder>() {
 
     private val baseImage = "https://image.tmdb.org/t/p/w500"
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_now_playing, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context)
+            .inflate(R.layout.item_now_playing, viewGroup, false)
         return MyViewHolder(view)
     }
 
@@ -34,7 +36,6 @@ class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) 
                 .load(baseImage + nowPlayingItem.posterPath)
                 .apply(requestOptions).into(myViewHolder.poster)
         }
-
     }
 
     override fun getItemCount(): Int {
@@ -56,5 +57,4 @@ class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) 
             poster = itemView.findViewById(R.id.image_movie)
         }
     }
-
 }

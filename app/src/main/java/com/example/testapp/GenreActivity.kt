@@ -1,15 +1,16 @@
 package com.example.testapp
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.databinding.ActivityGenreBinding
-import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.model.Genre
-import com.orhanobut.hawk.Hawk
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+
 
 private lateinit var binding: ActivityGenreBinding
 
@@ -24,12 +25,24 @@ class GenreActivity : AppCompatActivity() {
     }
 
     private fun setupGenre() {
-        Hawk.init(this).build()
-        val dataGenre: List<Genre> = Hawk.get("dataGenre")
+//        Hawk.init(this).build()
+//        val dataGenre: List<Genre> = Hawk.get("dataGenre")
 
-        val genreAdapter = GenreAdapter(dataGenre, this, true)
-        binding.rvGenre.adapter = genreAdapter
-        binding.rvGenre.layoutManager = GridLayoutManager(this, 3)
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+        val arrayItems: List<Genre>
+        val serializedObject: String = sharedPreferences.getString("dataGenre", null).orEmpty()
+        if (serializedObject != null) {
+            val gson = Gson()
+            val type = object : TypeToken<List<Genre?>>() {}.type
+            arrayItems = gson.fromJson<List<Genre>>(serializedObject, type)
+            val genreAdapter = GenreAdapter(arrayItems, this, true)
+            binding.rvGenre.adapter = genreAdapter
+            binding.rvGenre.layoutManager = GridLayoutManager(this, 3)
+        }
+
+
 
     }
 }

@@ -14,9 +14,11 @@ import com.example.testapp.R
 import com.example.testapp.model.Genre
 
 
-class GenreAdapter( var genre: List<Genre>, var context: Context, var allData: Boolean) : RecyclerView.Adapter<GenreAdapter.MyViewHolder>() {
+class GenreAdapter(var genre: List<Genre>, var context: Context, var allData: Boolean) :
+    RecyclerView.Adapter<GenreAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder {
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.item_genre, viewGroup, false)
+        val view =
+            LayoutInflater.from(viewGroup.context).inflate(R.layout.item_genre, viewGroup, false)
         return MyViewHolder(view)
     }
 
@@ -44,5 +46,4 @@ class GenreAdapter( var genre: List<Genre>, var context: Context, var allData: B
             card = itemView.findViewById(R.id.cv_genre)
         }
     }
-
 }
