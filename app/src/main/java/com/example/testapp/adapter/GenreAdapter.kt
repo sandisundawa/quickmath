@@ -34,7 +34,7 @@ class GenreAdapter(var genre: List<Genre>, var context: Context, var allData: Bo
     }
 
     override fun getItemCount(): Int {
-        return if (allData) genre.size else 5
+        return if (allData) genre.size else 4
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

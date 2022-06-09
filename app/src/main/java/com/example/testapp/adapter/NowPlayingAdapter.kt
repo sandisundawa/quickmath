@@ -1,16 +1,19 @@
 package com.example.testapp.adapter
 
 import android.content.Context
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.R
+import com.example.testapp.helper.DateFormatter
 import com.example.testapp.model.NowPlaying
 
 class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) :
@@ -24,10 +27,11 @@ class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) 
         return MyViewHolder(view)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(myViewHolder: MyViewHolder, i: Int) {
         val nowPlayingItem = nowPlaying[i]
         myViewHolder.title.text = nowPlayingItem.title
-        myViewHolder.release.text = nowPlayingItem.releaseDate
+        myViewHolder.release.text = DateFormatter.formatDate(nowPlayingItem.releaseDate.orEmpty())
         myViewHolder.rating.text = nowPlayingItem.voteAverage.toString()
 
         if (nowPlayingItem.posterPath != null) {

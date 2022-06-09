@@ -11,7 +11,6 @@ import com.example.testapp.model.Genre
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-
 private lateinit var binding: ActivityGenreBinding
 
 class GenreActivity : AppCompatActivity() {
@@ -33,16 +32,12 @@ class GenreActivity : AppCompatActivity() {
 
         val arrayItems: List<Genre>
         val serializedObject: String = sharedPreferences.getString("dataGenre", null).orEmpty()
-        if (serializedObject != null) {
-            val gson = Gson()
-            val type = object : TypeToken<List<Genre?>>() {}.type
-            arrayItems = gson.fromJson<List<Genre>>(serializedObject, type)
-            val genreAdapter = GenreAdapter(arrayItems, this, true)
-            binding.rvGenre.adapter = genreAdapter
-            binding.rvGenre.layoutManager = GridLayoutManager(this, 3)
-        }
+        val gson = Gson()
+        val type = object : TypeToken<List<Genre?>>() {}.type
+        arrayItems = gson.fromJson(serializedObject, type)
 
-
-
+        val genreAdapter = GenreAdapter(arrayItems, this, true)
+        binding.rvGenre.adapter = genreAdapter
+        binding.rvGenre.layoutManager = GridLayoutManager(this, 3)
     }
 }
