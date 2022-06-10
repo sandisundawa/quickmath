@@ -41,8 +41,8 @@ class MainActivity : AppCompatActivity() {
         nowPlayingRepository = NowPlayingRepository(apiService)
         viewModel = getViewModel()
 
-        viewModel.getListGenre()
-        viewModel.getListNowPlaying()
+        viewModel.getListGenre(getString(R.string.api_key))
+        viewModel.getListNowPlaying(getString(R.string.api_key))
         setupGenre()
         setupNowPlaying()
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Test App Movie MVVM</string>
+    <string name="api_key">2c35c921410c9727265ed66192629a38</string>
 </resources>

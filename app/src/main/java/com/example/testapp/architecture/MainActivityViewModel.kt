@@ -12,18 +12,16 @@ class MainActivityViewModel(
     private val nowPlayingRepository: NowPlayingRepository
 ) : ViewModel() {
 
-    private val API_KEY = "2c35c921410c9727265ed66192629a38"
-
     private val compositeDisposable = CompositeDisposable()
     var listGenreData: MutableLiveData<MainGenre>? = null
     var listNowPlayingData: MutableLiveData<NowPlayingResult>? = null
 
-    fun getListGenre() {
-        listGenreData = genreRepository.fetchGenre(compositeDisposable, API_KEY)
+    fun getListGenre(apiKey: String) {
+        listGenreData = genreRepository.fetchGenre(compositeDisposable, apiKey)
     }
 
-    fun getListNowPlaying() {
-        listNowPlayingData = nowPlayingRepository.fetchNowPlaying(compositeDisposable, API_KEY)
+    fun getListNowPlaying(apiKey: String) {
+        listNowPlayingData = nowPlayingRepository.fetchNowPlaying(compositeDisposable, apiKey)
     }
 
     override fun onCleared() {
