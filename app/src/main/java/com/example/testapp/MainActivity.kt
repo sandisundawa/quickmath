@@ -13,11 +13,13 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.NowPlayingAdapter
+import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.api.ApiClient
 import com.example.testapp.api.ApiInterface
 import com.example.testapp.architecture.GenreRepository
 import com.example.testapp.architecture.MainActivityViewModel
 import com.example.testapp.architecture.NowPlayingRepository
+import com.example.testapp.architecture.TrendingRepository
 import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.helper.Warning
 import com.google.gson.Gson
@@ -28,6 +30,7 @@ private lateinit var binding: ActivityMainBinding
 private lateinit var viewModel: MainActivityViewModel
 lateinit var genreRepository: GenreRepository
 lateinit var nowPlayingRepository: NowPlayingRepository
+lateinit var trendingRepository: TrendingRepository
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,14 +42,26 @@ class MainActivity : AppCompatActivity() {
         val apiService: ApiInterface = ApiClient.getClient()
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
+        trendingRepository = TrendingRepository(apiService)
         viewModel = getViewModel()
 
         viewModel.getListGenre(getString(R.string.api_key))
         viewModel.getListNowPlaying(getString(R.string.api_key))
+        viewModel.getTrending(getString(R.string.api_key))
         setupGenre()
         setupNowPlaying()
+        setupTrending()
 
 
+    }
+
+    private fun setupTrending() {
+        viewModel.listTrendingData?.observe(this, Observer { data ->
+            val trendingAdapter = TrendingAdapter(data.trending, this)
+            binding.rvTrending.adapter = trendingAdapter
+            binding.rvTrending.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            Log.d("kesini", data.trending.toString())
+        })
     }
 
     private fun setupNowPlaying() {
@@ -55,8 +70,6 @@ class MainActivity : AppCompatActivity() {
             binding.rvNowShowing.adapter = nowPlayingAdapter
             binding.rvNowShowing.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
-
-            Warning.seeGeneralSuccessToast(this)
         })
     }
 
@@ -89,7 +102,7 @@ class MainActivity : AppCompatActivity() {
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
-                return MainActivityViewModel(genreRepository, nowPlayingRepository) as T
+                return MainActivityViewModel(genreRepository, nowPlayingRepository, trendingRepository) as T
             }
         })[MainActivityViewModel::class.java]
     }

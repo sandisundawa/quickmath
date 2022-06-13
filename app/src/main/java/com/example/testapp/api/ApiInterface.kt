@@ -35,4 +35,11 @@ interface ApiInterface {
         @Query("api_key") apiKey: String?
     ): Observable<NowPlayingResult?>
 
+    @GET("trending/{media_type}/{time_window}")
+    fun getTrending(
+        @Path("media_type") mediaType: String,
+        @Path("time_window") timeWindow: String,
+        @Query("api_key") apiKey: String
+    ): Observable<TrendingResult>
+
 }
