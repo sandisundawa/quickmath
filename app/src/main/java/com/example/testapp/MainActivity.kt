@@ -65,7 +65,6 @@ class MainActivity : AppCompatActivity() {
             this.getPreferences(MODE_PRIVATE).edit()
                 .putString("token", newToken).apply()
         }
-        Log.d("newToken", this.getPreferences(MODE_PRIVATE).getString("fb", "empty :(").orEmpty())
     }
 
     private fun setupTrending() {

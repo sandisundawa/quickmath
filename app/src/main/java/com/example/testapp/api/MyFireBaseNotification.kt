@@ -14,17 +14,17 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 
 open class MyFireBaseNotification : FirebaseMessagingService() {
-    override fun onMessageReceived(p0: RemoteMessage?) {
+    override fun onMessageReceived(message: RemoteMessage?) {
 
         val notificationIntent = PendingIntent.getActivity(
             this, 0,
             Intent(this, MainActivity::class.java), PendingIntent.FLAG_UPDATE_CURRENT
         )
         val notificationBuilder = NotificationCompat.Builder(this, "channel_id")
-            .setContentTitle(p0?.data?.get("title"))
+            .setContentTitle(message?.data?.get("title"))
             .setSmallIcon(R.drawable.ic_baseline_tv_24)
             .setContentIntent(notificationIntent)
-            .setContentText(p0?.data?.get("body"))
+            .setContentText(message?.data?.get("body"))
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setStyle(NotificationCompat.BigTextStyle())
             .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
@@ -44,9 +44,9 @@ open class MyFireBaseNotification : FirebaseMessagingService() {
 
     }
 
-    override fun onNewToken(p0: String?) {
-        super.onNewToken(p0)
-        getSharedPreferences("token", MODE_PRIVATE).edit().putString("fcm", p0).apply()
+    override fun onNewToken(token: String?) {
+        super.onNewToken(token)
+        getSharedPreferences("token", MODE_PRIVATE).edit().putString("fcm", token).apply()
     }
 
     fun getToken(context: Context): String? {
