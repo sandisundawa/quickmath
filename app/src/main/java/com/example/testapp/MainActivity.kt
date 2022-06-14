@@ -21,7 +21,8 @@ import com.example.testapp.architecture.MainActivityViewModel
 import com.example.testapp.architecture.NowPlayingRepository
 import com.example.testapp.architecture.TrendingRepository
 import com.example.testapp.databinding.ActivityMainBinding
-import com.example.testapp.helper.Warning
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
 
 
@@ -51,8 +52,20 @@ class MainActivity : AppCompatActivity() {
         setupGenre()
         setupNowPlaying()
         setupTrending()
+        getFCMToken()
 
+    }
 
+    private fun getFCMToken() {
+        FirebaseInstanceId.getInstance().instanceId.addOnSuccessListener(
+            this
+        ) { instanceIdResult: InstanceIdResult ->
+            val newToken = instanceIdResult.token
+            Log.e("newToken", newToken)
+            this.getPreferences(MODE_PRIVATE).edit()
+                .putString("token", newToken).apply()
+        }
+        Log.d("newToken", this.getPreferences(MODE_PRIVATE).getString("fb", "empty :(").orEmpty())
     }
 
     private fun setupTrending() {
