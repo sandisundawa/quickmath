@@ -9,7 +9,11 @@
         <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_list_movie.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/layout/activity_main.xml" value="0.17481884057971014" />
         <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/layout/item_genre.xml" value="0.203125" />
+        <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/layout/item_notif.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/layout/item_now_playing.xml" value="0.203125" />
+        <entry key="..\:/Users/1493/AndroidStudioProjects/TestApp/app/src/main/res/mipmap-anydpi-v26/ic_notif.xml" value="0.126" />
+        <entry key="..\:/Users/1493/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/preference_category.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/1493/AppData/Local/Android/Sdk/platforms/android-32/data/res/layout/select_dialog_item.xml" value="0.20416666666666666" />
       </map>
     </option>
   </component>
