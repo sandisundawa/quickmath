@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -14,8 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
-import com.example.testapp.api.ApiClient
-import com.example.testapp.api.ApiInterface
 import com.example.testapp.architecture.GenreRepository
 import com.example.testapp.architecture.MainActivityViewModel
 import com.example.testapp.architecture.NowPlayingRepository
@@ -33,14 +30,13 @@ lateinit var genreRepository: GenreRepository
 lateinit var nowPlayingRepository: NowPlayingRepository
 lateinit var trendingRepository: TrendingRepository
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        val apiService: ApiInterface = ApiClient.getClient()
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
         trendingRepository = TrendingRepository(apiService)
