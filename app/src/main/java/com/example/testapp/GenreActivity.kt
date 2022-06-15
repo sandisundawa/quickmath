@@ -24,9 +24,6 @@ class GenreActivity : AppCompatActivity() {
     }
 
     private fun setupGenre() {
-//        Hawk.init(this).build()
-//        val dataGenre: List<Genre> = Hawk.get("dataGenre")
-
         val sharedPreferences: SharedPreferences =
             this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
 

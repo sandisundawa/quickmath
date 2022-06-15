@@ -8,13 +8,16 @@ import com.example.testapp.model.NowPlayingResult
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class NowPlayingDataSource(private val apiService : ApiInterface, private val compositeDisposable: CompositeDisposable) {
+class NowPlayingDataSource(
+    private val apiService: ApiInterface,
+    private val compositeDisposable: CompositeDisposable
+) {
 
-    private val _networkState  = MutableLiveData<NetworkState>()
+    private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
         get() = _networkState
 
-    private val _nowPlayingResponse =  MutableLiveData<NowPlayingResult>()
+    private val _nowPlayingResponse = MutableLiveData<NowPlayingResult>()
     val nowPlayingResponse: MutableLiveData<NowPlayingResult>
         get() = _nowPlayingResponse
 
@@ -39,10 +42,8 @@ class NowPlayingDataSource(private val apiService : ApiInterface, private val co
                     )
             )
 
-        }
-
-        catch (e: Exception){
-            Log.e("NowPlayingDataSource",e.message.orEmpty())
+        } catch (e: Exception) {
+            Log.e("NowPlayingDataSource", e.message.orEmpty())
         }
     }
 }

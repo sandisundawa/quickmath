@@ -53,7 +53,6 @@ class MainActivity : AppCompatActivity() {
         setupNowPlaying()
         setupTrending()
         getFCMToken()
-
     }
 
     private fun getFCMToken() {
@@ -71,7 +70,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.listTrendingData?.observe(this, Observer { data ->
             val trendingAdapter = TrendingAdapter(data.trending, this)
             binding.rvTrending.adapter = trendingAdapter
-            binding.rvTrending.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            binding.rvTrending.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.trending.toString())
         })
     }
@@ -80,7 +80,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.listNowPlayingData?.observe(this, Observer { data ->
             val nowPlayingAdapter = NowPlayingAdapter(data.nowPlaying, this)
             binding.rvNowShowing.adapter = nowPlayingAdapter
-            binding.rvNowShowing.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+            binding.rvNowShowing.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
         })
     }
@@ -89,11 +90,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.listGenreData?.observe(this, Observer { data ->
             val genreAdapter = GenreAdapter(data.genres, this, false)
             binding.rvGenre.adapter = genreAdapter
-            binding.rvGenre.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL ,false)
+            binding.rvGenre.layoutManager =
+                LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
 
             binding.seeMoreGenre.setOnClickListener {
-//                Hawk.init(this).build()
-//                Hawk.put("dataGenre", data.genres)
                 val toGenre = Intent(this, GenreActivity::class.java)
 
                 val sharedPreferences: SharedPreferences =
@@ -114,7 +114,11 @@ class MainActivity : AppCompatActivity() {
         return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
             override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                 @Suppress("UNCHECKED_CAST")
-                return MainActivityViewModel(genreRepository, nowPlayingRepository, trendingRepository) as T
+                return MainActivityViewModel(
+                    genreRepository,
+                    nowPlayingRepository,
+                    trendingRepository
+                ) as T
             }
         })[MainActivityViewModel::class.java]
     }

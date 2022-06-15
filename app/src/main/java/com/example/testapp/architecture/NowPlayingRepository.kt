@@ -6,13 +6,16 @@ import com.example.testapp.api.ApiInterface
 import com.example.testapp.model.NowPlayingResult
 import io.reactivex.disposables.CompositeDisposable
 
-class NowPlayingRepository(private val apiService : ApiInterface) {
+class NowPlayingRepository(private val apiService: ApiInterface) {
 
     lateinit var nowPlayingDataSource: NowPlayingDataSource
 
-    fun fetchNowPlaying (compositeDisposable: CompositeDisposable, key: String) : MutableLiveData<NowPlayingResult> {
+    fun fetchNowPlaying(
+        compositeDisposable: CompositeDisposable,
+        key: String
+    ): MutableLiveData<NowPlayingResult> {
 
-        nowPlayingDataSource = NowPlayingDataSource(apiService,compositeDisposable)
+        nowPlayingDataSource = NowPlayingDataSource(apiService, compositeDisposable)
         nowPlayingDataSource.fetchNowPlaying(key)
 
         return nowPlayingDataSource.nowPlayingResponse

@@ -5,10 +5,6 @@ import android.widget.Toast
 
 object Warning {
 
-    fun getMath(a: Int, b: Int): Int {
-        return  a+b
-    }
-
     fun seeGeneralErrorToast(context: Context) {
         Toast.makeText(context, "Gagal Memuat, mohon coba beberapa saat lagi", Toast.LENGTH_SHORT).show()
     }

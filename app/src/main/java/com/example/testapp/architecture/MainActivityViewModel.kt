@@ -34,5 +34,4 @@ class MainActivityViewModel(
         super.onCleared()
         compositeDisposable.dispose()
     }
-
 }

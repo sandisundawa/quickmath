@@ -16,7 +16,6 @@ class GenreRepository (private val apiService : ApiInterface) {
         genreDataSource.fetchGenre(key)
 
         return genreDataSource.genreResponse
-
     }
 
     fun getGenreNetworkState(): LiveData<NetworkState> {

@@ -8,13 +8,16 @@ import com.example.testapp.model.TrendingResult
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class TrendingDataSource(private val apiService : ApiInterface, private val compositeDisposable: CompositeDisposable) {
+class TrendingDataSource(
+    private val apiService: ApiInterface,
+    private val compositeDisposable: CompositeDisposable
+) {
 
-    private val _networkState  = MutableLiveData<NetworkState>()
+    private val _networkState = MutableLiveData<NetworkState>()
     val networkState: LiveData<NetworkState>
         get() = _networkState
 
-    private val _trendingResponse =  MutableLiveData<TrendingResult>()
+    private val _trendingResponse = MutableLiveData<TrendingResult>()
     val trendingResponse: MutableLiveData<TrendingResult>
         get() = _trendingResponse
 
@@ -39,10 +42,8 @@ class TrendingDataSource(private val apiService : ApiInterface, private val comp
                     )
             )
 
-        }
-
-        catch (e: Exception){
-            Log.e("TrendingDataSource",e.message.orEmpty())
+        } catch (e: Exception) {
+            Log.e("TrendingDataSource", e.message.orEmpty())
         }
     }
 }

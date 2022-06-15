@@ -6,13 +6,16 @@ import com.example.testapp.api.ApiInterface
 import com.example.testapp.model.TrendingResult
 import io.reactivex.disposables.CompositeDisposable
 
-class TrendingRepository(private val apiService : ApiInterface) {
+class TrendingRepository(private val apiService: ApiInterface) {
 
     lateinit var trendingDataSource: TrendingDataSource
 
-    fun fetchTrending(compositeDisposable: CompositeDisposable, key: String) : MutableLiveData<TrendingResult> {
+    fun fetchTrending(
+        compositeDisposable: CompositeDisposable,
+        key: String
+    ): MutableLiveData<TrendingResult> {
 
-        trendingDataSource = TrendingDataSource(apiService,compositeDisposable)
+        trendingDataSource = TrendingDataSource(apiService, compositeDisposable)
         trendingDataSource.fetchTrending(key, "movie", "day")
 
         return trendingDataSource.trendingResponse
