@@ -2,6 +2,7 @@ package com.example.testapp.adapter
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,7 +28,8 @@ class GenreAdapter(var genre: List<Genre>, var context: Context, var allData: Bo
 
         myViewHolder.card.setOnClickListener {
             val toMovie = Intent(context, ListMovieActivity::class.java)
-            toMovie.putExtra("genreName", genreItem.name)
+            toMovie.putExtra("genreId", genreItem.id.toString())
+            Log.d("kesini", "put "+genreItem.id.toString())
             context.startActivity(toMovie)
         }
     }
