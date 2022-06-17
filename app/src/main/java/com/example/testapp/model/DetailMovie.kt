@@ -5,10 +5,10 @@ import com.google.gson.annotations.SerializedName
 
 data class DetailMovie(
     @SerializedName("adult") @Expose
-    private var adult: Boolean? = null,
+    var adult: Boolean? = null,
     @SerializedName("backdrop_path")
     @Expose
-    private val backdropPath: String? = null,
+    val backdropPath: String? = null,
 
     @SerializedName("belongs_to_collection")
     @Expose
@@ -40,11 +40,11 @@ data class DetailMovie(
 
     @SerializedName("original_title")
     @Expose
-    private val originalTitle: String? = null,
+    val originalTitle: String? = null,
 
     @SerializedName("overview")
     @Expose
-    private val overview: String? = null,
+    val overview: String? = null,
 
     @SerializedName("popularity")
     @Expose
@@ -52,7 +52,7 @@ data class DetailMovie(
 
     @SerializedName("poster_path")
     @Expose
-    private val posterPath: String? = null,
+    val posterPath: String? = null,
 
     @SerializedName("release_date")
     @Expose
@@ -64,7 +64,7 @@ data class DetailMovie(
 
     @SerializedName("runtime")
     @Expose
-    private val runtime: Int? = null,
+    val runtime: Int? = null,
 
     @SerializedName("status")
     @Expose
@@ -76,7 +76,7 @@ data class DetailMovie(
 
     @SerializedName("title")
     @Expose
-    private val title: String? = null,
+    val title: String? = null,
 
     @SerializedName("video")
     @Expose
@@ -84,7 +84,7 @@ data class DetailMovie(
 
     @SerializedName("vote_average")
     @Expose
-    private val voteAverage: Double? = null,
+    val voteAverage: Double? = null,
 
     @SerializedName("vote_count")
     @Expose

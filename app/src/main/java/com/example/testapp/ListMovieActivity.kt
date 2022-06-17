@@ -21,20 +21,18 @@ private lateinit var binding: ActivityListMovieBinding
 private lateinit var viewModel: ListMovieViewModel
 lateinit var listMovieByGenreRepository: ListMovieByGenreRepository
 
-class ListMovieActivity : AppCompatActivity() {
+class ListMovieActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListMovieBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
-        val apiService: ApiInterface = ApiClient.getClient()
         listMovieByGenreRepository = ListMovieByGenreRepository(apiService)
         viewModel = getViewModel()
 
         val intent = intent
         val genre = intent.getStringExtra("genreId")
-        Log.d("kesini", "genre : "+genre)
         viewModel.getListMovieByGenre(getString(R.string.api_key),genre.orEmpty())
 
         setupMovies()
@@ -43,7 +41,6 @@ class ListMovieActivity : AppCompatActivity() {
 
     private fun setupMovies() {
         viewModel.listMovie?.observe(this, Observer { data ->
-            Log.d("kesini", data.results.toString())
             val movieAdapter = MoviesAdapter(data.results.orEmpty(), this)
             binding.rvMovieByGenre.adapter = movieAdapter
             binding.rvMovieByGenre.layoutManager =

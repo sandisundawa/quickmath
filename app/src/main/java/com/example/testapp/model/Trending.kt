@@ -21,5 +21,9 @@ data class Trending(
 
     @SerializedName("vote_average")
     @Expose
-    val voteAverage: Double? = null
+    val voteAverage: Double? = null,
+
+    @SerializedName("id")
+    @Expose
+    val id: Int? = null
 )

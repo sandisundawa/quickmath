@@ -1,6 +1,7 @@
 package com.example.testapp.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +13,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import com.example.testapp.DetailMovieActivity
 import com.example.testapp.R
 import com.example.testapp.helper.DateFormatter
 import com.example.testapp.model.Trending
@@ -39,6 +41,12 @@ class TrendingAdapter(var trending: List<Trending>, var context: Context) :
             Glide.with(context)
                 .load(baseImage + trendingItem.posterPath)
                 .apply(requestOptions).into(myViewHolder.poster)
+        }
+
+        myViewHolder.card.setOnClickListener {
+            val toDetail = Intent(context, DetailMovieActivity::class.java)
+            toDetail.putExtra("idMovie", trendingItem.id.toString())
+            context.startActivity(toDetail)
         }
     }
 
