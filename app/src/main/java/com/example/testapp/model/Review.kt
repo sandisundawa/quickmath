@@ -5,14 +5,14 @@ import com.google.gson.annotations.SerializedName
 
 data class Review(
     @SerializedName("id") @Expose
-    private var id: Int? = null,
+    var id: Int? = null,
     @SerializedName("page")
     @Expose
     private val page: Int? = null,
 
     @SerializedName("results")
     @Expose
-    private val results: List<ResultReview>? = null,
+    val results: List<ResultReview>? = null,
 
     @SerializedName("total_pages")
     @Expose

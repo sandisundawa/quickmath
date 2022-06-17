@@ -1,5 +1,6 @@
 package com.example.testapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
@@ -50,6 +51,13 @@ class DetailMovieActivity : BaseActivity() {
                     .load(baseImage + data.posterPath)
                     .apply(requestOptions).into(binding.ivPoster)
             }
+
+            binding.btnReview.setOnClickListener {
+                val toReview = Intent(this, ReviewActivity::class.java)
+                toReview.putExtra("idMovie", data.id.toString())
+                startActivity(toReview)
+            }
+
         })
     }
 
