@@ -1,7 +1,6 @@
 package com.example.testapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -11,10 +10,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.architecture.DetailMovieRepository
 import com.example.testapp.architecture.DetailMovieViewModel
-import com.example.testapp.architecture.ListMovieByGenreRepository
-import com.example.testapp.architecture.ListMovieViewModel
 import com.example.testapp.databinding.ActivityDetailMovieBinding
-import com.example.testapp.databinding.ActivityListMovieBinding
 
 private lateinit var binding: ActivityDetailMovieBinding
 
@@ -56,6 +52,14 @@ class DetailMovieActivity : BaseActivity() {
                 val toReview = Intent(this, ReviewActivity::class.java)
                 toReview.putExtra("idMovie", data.id.toString())
                 startActivity(toReview)
+            }
+
+            binding.btnTrailer.setOnClickListener {
+                val intent = Intent(Intent.ACTION_SEARCH)
+                intent.setPackage("com.google.android.youtube")
+                intent.putExtra("query", data.title+" trailer")
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
             }
 
         })
