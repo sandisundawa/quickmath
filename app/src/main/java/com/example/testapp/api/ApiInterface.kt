@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface ApiInterface {
 
-    //genre
     @GET("genre/movie/list")
     fun getGenre(@Query("api_key") apiKey: String?): Observable<MainGenre?>
 
@@ -16,6 +15,12 @@ interface ApiInterface {
     fun getMovie(
         @Query("api_key") apiKey: String?,
         @Query("with_genres") withGenres: String?
+    ): Observable<Movie?>
+
+    @GET("search/movie")
+    fun getMovieBySearch(
+        @Query("api_key") apiKey: String?,
+        @Query("query") query: String?
     ): Observable<Movie?>
 
     @GET("movie/{movie_id}")

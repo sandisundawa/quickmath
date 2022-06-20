@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView.OnEditorActionListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -13,10 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
-import com.example.testapp.architecture.GenreRepository
-import com.example.testapp.architecture.MainActivityViewModel
-import com.example.testapp.architecture.NowPlayingRepository
-import com.example.testapp.architecture.TrendingRepository
+import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
@@ -29,6 +28,7 @@ private lateinit var viewModel: MainActivityViewModel
 lateinit var genreRepository: GenreRepository
 lateinit var nowPlayingRepository: NowPlayingRepository
 lateinit var trendingRepository: TrendingRepository
+lateinit var searchMovieRepository: SearchMovieRepository
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,6 +40,8 @@ class MainActivity : BaseActivity() {
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
         trendingRepository = TrendingRepository(apiService)
+        searchMovieRepository = SearchMovieRepository(apiService)
+
         viewModel = getViewModel()
 
         viewModel.getListGenre(getString(R.string.api_key))
@@ -48,7 +50,41 @@ class MainActivity : BaseActivity() {
         setupGenre()
         setupNowPlaying()
         setupTrending()
+
+        searchUI()
+
         getFCMToken()
+    }
+
+    private fun searchUI() {
+        binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
+            var handled = false
+            if (actionId == EditorInfo.IME_ACTION_SEND) {
+                viewModel.getMovieByQuery(getString(R.string.api_key), v.text.toString())
+                handled = true
+                observeSearch()
+            }
+            handled
+        })
+    }
+
+    private fun observeSearch() {
+        viewModel.listMovieByQuery?.observe(this, Observer { data ->
+            val toMovieList = Intent(this, ListMovieActivity::class.java)
+
+            val sharedPreferences: SharedPreferences =
+                this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+            val editor = sharedPreferences.edit()
+            val gson = Gson()
+            val json = gson.toJson(data.results)
+            editor.putString("dataMovieByQuery", json)
+            editor.commit()
+
+            startActivity(toMovieList)
+
+            Log.d("kesini", data.results.toString())
+        })
     }
 
     private fun getFCMToken() {
@@ -113,7 +149,8 @@ class MainActivity : BaseActivity() {
                 return MainActivityViewModel(
                     genreRepository,
                     nowPlayingRepository,
-                    trendingRepository
+                    trendingRepository,
+                    searchMovieRepository
                 ) as T
             }
         })[MainActivityViewModel::class.java]

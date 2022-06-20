@@ -1,5 +1,7 @@
 package com.example.testapp
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -7,13 +9,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.MoviesAdapter
 import com.example.testapp.api.ApiClient
 import com.example.testapp.api.ApiInterface
 import com.example.testapp.architecture.ListMovieByGenreRepository
 import com.example.testapp.architecture.ListMovieViewModel
 import com.example.testapp.databinding.ActivityListMovieBinding
+import com.example.testapp.model.Genre
+import com.example.testapp.model.Result
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
 
 private lateinit var binding: ActivityListMovieBinding
@@ -33,10 +41,31 @@ class ListMovieActivity : BaseActivity() {
 
         val intent = intent
         val genre = intent.getStringExtra("genreId")
-        viewModel.getListMovieByGenre(getString(R.string.api_key),genre.orEmpty())
 
-        setupMovies()
+        if (genre != null) {
+            viewModel.getListMovieByGenre(getString(R.string.api_key), genre.orEmpty())
+            setupMovies()
+        }
 
+        getListMovieByQuery()
+
+    }
+
+    private fun getListMovieByQuery() {
+        val sharedPreferences: SharedPreferences =
+            this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+        val arrayItems: List<Result>
+        val serializedObject: String =
+            sharedPreferences.getString("dataMovieByQuery", null).orEmpty()
+        val gson = Gson()
+        val type = object : TypeToken<List<Result?>>() {}.type
+        arrayItems = gson.fromJson(serializedObject, type)
+
+        val adapter = MoviesAdapter(arrayItems, this)
+        binding.rvMovieByGenre.adapter = adapter
+        binding.rvMovieByGenre.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
     }
 
     private fun setupMovies() {
