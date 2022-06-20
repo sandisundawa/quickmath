@@ -25,7 +25,7 @@ class MoviesAdapter(var movieData: List<Result>, var context: Context) :
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int): MyViewHolder {
         val view = LayoutInflater.from(viewGroup.context)
-            .inflate(R.layout.item_now_playing, viewGroup, false)
+            .inflate(R.layout.item_list_movie, viewGroup, false)
         return MyViewHolder(view)
     }
 
