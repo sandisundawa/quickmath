@@ -51,12 +51,12 @@ class MainActivity : BaseActivity() {
         setupNowPlaying()
         setupTrending()
 
-        searchUI()
+        setUI()
 
         getFCMToken()
     }
 
-    private fun searchUI() {
+    private fun setUI() {
         binding.etSearch.setOnEditorActionListener(OnEditorActionListener { v, actionId, event ->
             var handled = false
             if (actionId == EditorInfo.IME_ACTION_SEND) {
