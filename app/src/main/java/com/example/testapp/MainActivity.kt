@@ -17,6 +17,9 @@ import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
@@ -66,6 +69,26 @@ class MainActivity : BaseActivity() {
             }
             handled
         })
+
+        binding.ivLogout.setOnClickListener {
+            signOut()
+        }
+    }
+
+    private fun signOut() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .requestIdToken(getString(R.string.server_client_id))
+            .build()
+
+        val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+
+        mGoogleSignInClient.signOut()
+            .addOnCompleteListener(this, OnCompleteListener<Void?> {
+                val toSplash = Intent(this, SplashActivity::class.java)
+                startActivity(toSplash)
+            })
     }
 
     private fun observeSearch() {
