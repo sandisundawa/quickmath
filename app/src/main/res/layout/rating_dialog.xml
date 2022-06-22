@@ -22,9 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:max="100"
+        android:maxHeight="5dp"
+        android:minHeight="5dp"
         android:splitTrack="false"
-        android:progressDrawable="@drawable/custom_seekbar"
         android:thumb="@drawable/custom_thumb"
+        android:progressDrawable="@drawable/custom_seekbar"
         app:layout_constraintTop_toBottomOf="@+id/title_rating"
         android:layout_marginTop="24dp"/>
 
