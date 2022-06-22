@@ -16,9 +16,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.DetailMovieActivity
 import com.example.testapp.R
 import com.example.testapp.helper.DateFormatter
+import com.example.testapp.model.Result
 import com.example.testapp.model.Trending
 
-class TrendingAdapter(var trending: List<Trending>, var context: Context) :
+class TrendingAdapter(var trending: List<Result>, var context: Context) :
     RecyclerView.Adapter<TrendingAdapter.MyViewHolder>() {
 
     private val baseImage = "https://image.tmdb.org/t/p/w500"

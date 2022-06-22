@@ -17,8 +17,9 @@ import com.example.testapp.DetailMovieActivity
 import com.example.testapp.R
 import com.example.testapp.helper.DateFormatter
 import com.example.testapp.model.NowPlaying
+import com.example.testapp.model.Result
 
-class NowPlayingAdapter(var nowPlaying: List<NowPlaying>, var context: Context) :
+class NowPlayingAdapter(var nowPlaying: List<Result>, var context: Context) :
     RecyclerView.Adapter<NowPlayingAdapter.MyViewHolder>() {
 
     private val baseImage = "https://image.tmdb.org/t/p/w500"

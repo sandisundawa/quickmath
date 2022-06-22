@@ -129,6 +129,21 @@ class MainActivity : BaseActivity() {
             binding.rvTrending.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.trending.toString())
+
+            binding.seeMoreTrending.setOnClickListener {
+                val toMovieList = Intent(this, ListMovieActivity::class.java)
+
+                val sharedPreferences: SharedPreferences =
+                    this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+                val editor = sharedPreferences.edit()
+                val gson = Gson()
+                val json = gson.toJson(data.trending)
+                editor.putString("dataMovieByQuery", json)
+                editor.commit()
+
+                startActivity(toMovieList)
+            }
         })
     }
 
@@ -139,6 +154,21 @@ class MainActivity : BaseActivity() {
             binding.rvNowShowing.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
+
+            binding.seeMoreNowPlaying.setOnClickListener {
+                val toMovieList = Intent(this, ListMovieActivity::class.java)
+
+                val sharedPreferences: SharedPreferences =
+                    this.getSharedPreferences("PREF", Context.MODE_PRIVATE)
+
+                val editor = sharedPreferences.edit()
+                val gson = Gson()
+                val json = gson.toJson(data.nowPlaying)
+                editor.putString("dataMovieByQuery", json)
+                editor.commit()
+
+                startActivity(toMovieList)
+            }
         })
     }
 

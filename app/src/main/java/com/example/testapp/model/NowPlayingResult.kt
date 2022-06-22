@@ -9,5 +9,5 @@ data class NowPlayingResult(
 
     @SerializedName("results")
     @Expose
-    val nowPlaying: List<NowPlaying>
+    val nowPlaying: List<Result>
 )

@@ -9,5 +9,5 @@ data class TrendingResult(
 
     @SerializedName("results")
     @Expose
-    val trending: List<Trending>
+    val trending: List<Result>
 )
