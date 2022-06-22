@@ -81,5 +81,9 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.12'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.12'
 
+    // Google
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
+
+    //UI
+    implementation 'com.github.f0ris.sweetalert:library:1.5.1'
 }

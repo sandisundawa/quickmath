@@ -3,11 +3,14 @@ package com.example.testapp
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.testapp.databinding.ActivityLoginBinding
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 
@@ -27,10 +30,13 @@ class LoginActivity : AppCompatActivity() {
 
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
+        setGooglePlusButtonText(binding.googleLogin, "Login Menggunakan Google")
+
         fun signIn() {
             val signInIntent: Intent = mGoogleSignInClient.signInIntent
             startActivityForResult(signInIntent, 1)
         }
+
 
         binding.googleLogin.setOnClickListener {
             signIn()
@@ -72,5 +78,17 @@ class LoginActivity : AppCompatActivity() {
     private fun toHome() {
         val toHome = Intent(this, MainActivity::class.java)
         startActivity(toHome)
+    }
+
+    protected fun setGooglePlusButtonText(signInButton: SignInButton, buttonText: String?) {
+        // Find the TextView that is inside of the SignInButton and set its text
+        for (i in 0 until signInButton.childCount) {
+            val v: View = signInButton.getChildAt(i)
+            if (v is TextView) {
+                val tv = v as TextView
+                tv.text = buttonText
+                return
+            }
+        }
     }
 }

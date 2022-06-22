@@ -71,7 +71,8 @@ class MainActivity : BaseActivity() {
         })
 
         binding.ivLogout.setOnClickListener {
-            signOut()
+            showConfirmDialog("Logout", "Are you sure want to Logout?",
+                "Yes", "Cancel", onPositifClicked = { signOut() })
         }
     }
 
