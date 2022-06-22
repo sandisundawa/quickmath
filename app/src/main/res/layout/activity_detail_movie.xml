@@ -13,10 +13,10 @@
         android:layout_height="250dp"
         android:scaleType="centerCrop"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        android:src="@drawable/ic_baseline_star_24"/>
+        app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/custom_corner_radius"
@@ -84,6 +84,21 @@
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btn_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="8dp"
+        android:drawableStart="@drawable/ic_baseline_add_24"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp"
+        android:text="Give rating"
+        android:textAllCaps="false"
+        android:background="@drawable/button_custom_style"
+        app:layout_constraintTop_toBottomOf="@+id/cl_content"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <Button
         android:id="@+id/btn_review"

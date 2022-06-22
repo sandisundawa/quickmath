@@ -2,9 +2,7 @@ package com.example.testapp.api
 
 import com.example.testapp.model.*
 import io.reactivex.Observable
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ApiInterface {
 
@@ -46,5 +44,13 @@ interface ApiInterface {
         @Path("time_window") timeWindow: String,
         @Query("api_key") apiKey: String
     ): Observable<TrendingResult>
+
+
+    @Headers("Content-Type: application/json")
+    @POST("movie/{movie_id}/rating")
+    fun postRateMovie(
+        @Path("movie_id") movieId: Int?,
+        @Query("api_key") apiKey: String
+    ): Observable<RateMovie>
 
 }
