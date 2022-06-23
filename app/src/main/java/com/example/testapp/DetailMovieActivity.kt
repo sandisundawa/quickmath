@@ -13,13 +13,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.architecture.DetailMovieRepository
 import com.example.testapp.architecture.DetailMovieViewModel
 import com.example.testapp.architecture.RateRepository
 import com.example.testapp.databinding.ActivityDetailMovieBinding
-import com.example.testapp.model.RatingValue
 import com.google.gson.JsonObject
 import com.orhanobut.hawk.Hawk
 
@@ -51,6 +51,7 @@ class DetailMovieActivity : BaseActivity() {
         binding.btnRating.setOnClickListener {
             dialogRating(idMovie.orEmpty(), sessionId)
         }
+
     }
 
     private fun dialogRating(idMovie: String, sessionId: String) {
@@ -70,11 +71,6 @@ class DetailMovieActivity : BaseActivity() {
                 reqBody.addProperty("value", doubledValue)
 
                 btnSubmit.setOnClickListener {
-
-                    Log.d("apa", reqBody.asJsonObject.toString())
-                    Log.d("apa", idMovie.toInt().toString())
-                    Log.d("apa", sessionId)
-                    Log.d("apa", slider.progress.toString())
 
                     viewModel.postRating(
                         getString(R.string.api_key),
@@ -107,8 +103,14 @@ class DetailMovieActivity : BaseActivity() {
     private fun observeRating() {
         viewModel.rateMovie?.observe(this, Observer { data ->
             Log.d("status", "" + data.status_code + data.status_message + "")
-            if (data.status_code == 1 || data.status_code == 12) {
-                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+            if (data.status_code == 1) {
+                SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Submitted")
+                    .show()
+            } else if (data.status_code == 12) {
+                SweetAlertDialog(this, SweetAlertDialog.SUCCESS_TYPE)
+                    .setTitleText("Data Updated")
+                    .show()
             }
         })
     }

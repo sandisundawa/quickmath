@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
 
         val mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        setGooglePlusButtonText(binding.googleLogin, "Login Menggunakan Google")
+        setGooglePlusButtonText(binding.googleLogin, "Login dengan Google")
 
         fun signIn() {
             val signInIntent: Intent = mGoogleSignInClient.signInIntent

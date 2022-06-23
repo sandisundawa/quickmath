@@ -19,13 +19,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Login"
+        android:textColor="@color/white"
         android:textSize="24sp"
+        android:fontFamily="@font/raleway_font_family"
         android:layout_marginBottom="36dp"/>
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
