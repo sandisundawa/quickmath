@@ -1,12 +1,14 @@
 package com.example.testapp
 
-import android.R.attr.textSize
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
 import android.widget.TextView
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -17,6 +19,9 @@ import com.example.testapp.architecture.DetailMovieRepository
 import com.example.testapp.architecture.DetailMovieViewModel
 import com.example.testapp.architecture.RateRepository
 import com.example.testapp.databinding.ActivityDetailMovieBinding
+import com.example.testapp.model.RatingValue
+import com.google.gson.JsonObject
+import com.orhanobut.hawk.Hawk
 
 
 private lateinit var binding: ActivityDetailMovieBinding
@@ -32,6 +37,9 @@ class DetailMovieActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
+        Hawk.init(this).build()
+        val sessionId: String = Hawk.get("sessionId")
+
         detailMovieRepository = DetailMovieRepository(apiService)
         rateRepository = RateRepository(apiService)
         viewModel = getViewModel()
@@ -41,23 +49,42 @@ class DetailMovieActivity : BaseActivity() {
         setData()
 
         binding.btnRating.setOnClickListener {
-            //show slider
-            dialogRating()
+            dialogRating(idMovie.orEmpty(), sessionId)
         }
     }
 
-    private fun dialogRating() {
+    private fun dialogRating(idMovie: String, sessionId: String) {
         val builder = AlertDialog.Builder(this)
             .create()
         val view = layoutInflater.inflate(R.layout.rating_dialog, null)
         val slider = view.findViewById<SeekBar>(R.id.slider_rating)
         val textValue = view.findViewById<TextView>(R.id.value_rating)
+        val btnSubmit = view.findViewById<Button>(R.id.btn_submit)
 
         slider.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
-            var progress = 0
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                val doubledValue: Double = (slider.progress / 10.0)
+                val doubledValue: Double = (slider.progress / 2.0)
                 textValue.text = "$doubledValue/10"
+
+                val reqBody = JsonObject()
+                reqBody.addProperty("value", doubledValue)
+
+                btnSubmit.setOnClickListener {
+
+                    Log.d("apa", reqBody.asJsonObject.toString())
+                    Log.d("apa", idMovie.toInt().toString())
+                    Log.d("apa", sessionId)
+                    Log.d("apa", slider.progress.toString())
+
+                    viewModel.postRating(
+                        getString(R.string.api_key),
+                        idMovie.toInt(),
+                        sessionId,
+                        reqBody.asJsonObject
+                    )
+                    observeRating()
+                    builder.dismiss()
+                }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar) {}
@@ -67,13 +94,23 @@ class DetailMovieActivity : BaseActivity() {
                 progressValue: Int,
                 fromUser: Boolean
             ) {
-                // do something
+                val doubledValue: Double = (slider.progress / 2.0)
+                textValue.text = "$doubledValue/10"
             }
         })
 
         builder.setCancelable(true)
         builder.setView(view)
         builder.show()
+    }
+
+    private fun observeRating() {
+        viewModel.rateMovie?.observe(this, Observer { data ->
+            Log.d("status", "" + data.status_code + data.status_message + "")
+            if (data.status_code == 1 || data.status_code == 12) {
+                Toast.makeText(this, "Success", Toast.LENGTH_LONG).show()
+            }
+        })
     }
 
     private fun setData() {

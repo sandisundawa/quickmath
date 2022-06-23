@@ -21,7 +21,7 @@
         android:id="@+id/slider_rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"
+        android:max="20"
         android:maxHeight="5dp"
         android:minHeight="5dp"
         android:splitTrack="false"

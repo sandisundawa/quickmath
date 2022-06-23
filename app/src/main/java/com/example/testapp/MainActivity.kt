@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
+import com.orhanobut.hawk.Hawk
 
 
 private lateinit var binding: ActivityMainBinding
@@ -32,6 +33,7 @@ lateinit var genreRepository: GenreRepository
 lateinit var nowPlayingRepository: NowPlayingRepository
 lateinit var trendingRepository: TrendingRepository
 lateinit var searchMovieRepository: SearchMovieRepository
+lateinit var sessionRepository: SessionRepository
 
 class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,19 +46,29 @@ class MainActivity : BaseActivity() {
         nowPlayingRepository = NowPlayingRepository(apiService)
         trendingRepository = TrendingRepository(apiService)
         searchMovieRepository = SearchMovieRepository(apiService)
+        sessionRepository = SessionRepository(apiService)
 
         viewModel = getViewModel()
 
         viewModel.getListGenre(getString(R.string.api_key))
         viewModel.getListNowPlaying(getString(R.string.api_key))
         viewModel.getTrending(getString(R.string.api_key))
+        viewModel.getSession(getString(R.string.api_key))
         setupGenre()
         setupNowPlaying()
         setupTrending()
+        observeSession()
 
         setUI()
 
         getFCMToken()
+    }
+
+    private fun observeSession() {
+        viewModel.sessionData?.observe(this, Observer { data ->
+            Hawk.init(this).build()
+            Hawk.put("sessionId", data.guest_session_id)
+        })
     }
 
     private fun setUI() {
@@ -204,7 +216,8 @@ class MainActivity : BaseActivity() {
                     genreRepository,
                     nowPlayingRepository,
                     trendingRepository,
-                    searchMovieRepository
+                    searchMovieRepository,
+                    sessionRepository
                 ) as T
             }
         })[MainActivityViewModel::class.java]

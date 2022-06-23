@@ -10,12 +10,12 @@ open class BaseActivity : AppCompatActivity() {
 
     val apiService: ApiInterface = ApiClient.getClient()
 
-    fun showConfirmDialog(title: String, desc: String, positif: String, negatif: String, onPositifClicked:() -> (Unit)) {
+    fun showConfirmDialog(title: String, desc: String, positifText: String, negatifText: String, onPositifClicked:() -> (Unit)) {
         SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
             .setTitleText(title)
             .setContentText(desc)
-            .setConfirmText(positif)
-            .setCancelText(negatif)
+            .setConfirmText(positifText)
+            .setCancelText(negatifText)
             .showCancelButton(true)
             .setCancelClickListener { dialog ->
                 dialog.cancel()
@@ -24,5 +24,4 @@ open class BaseActivity : AppCompatActivity() {
                 onPositifClicked()
             }.show()
     }
-
 }

@@ -1,7 +1,9 @@
 package com.example.testapp.api
 
 import com.example.testapp.model.*
+import com.google.gson.JsonObject
 import io.reactivex.Observable
+import okhttp3.RequestBody
 import retrofit2.http.*
 
 interface ApiInterface {
@@ -45,12 +47,19 @@ interface ApiInterface {
         @Query("api_key") apiKey: String
     ): Observable<TrendingResult>
 
+    @GET("authentication/guest_session/new")
+    fun getSession(
+        @Query("api_key") apiKey: String?
+    ): Observable<SessionResult>
+
 
     @Headers("Content-Type: application/json")
     @POST("movie/{movie_id}/rating")
     fun postRateMovie(
         @Path("movie_id") movieId: Int?,
-        @Query("api_key") apiKey: String
+        @Query("api_key") apiKey: String,
+        @Query("guest_session_id") sessionId: String,
+        @Body body: JsonObject
     ): Observable<RateMovie>
 
 }

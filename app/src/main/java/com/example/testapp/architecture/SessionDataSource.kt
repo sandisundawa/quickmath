@@ -4,14 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.testapp.api.ApiInterface
-import com.example.testapp.model.RateMovie
-import com.example.testapp.model.RatingValue
-import com.google.gson.JsonObject
+import com.example.testapp.model.SessionResult
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import okhttp3.RequestBody
 
-class RateDataSource(
+class SessionDataSource(
     private val apiService: ApiInterface,
     private val compositeDisposable: CompositeDisposable
 ) {
@@ -20,33 +17,32 @@ class RateDataSource(
     val networkState: LiveData<NetworkState>
         get() = _networkState
 
-    private val _rateResponse = MutableLiveData<RateMovie>()
-    val rateResponse: MutableLiveData<RateMovie>
-        get() = _rateResponse
+    private val _sessionResponse = MutableLiveData<SessionResult>()
+    val sessionResponse: MutableLiveData<SessionResult>
+        get() = _sessionResponse
 
-    fun postRateMovie(movieId: Int, key: String, sessionId: String, body: JsonObject) {
+    fun getSession(key: String) {
 
         _networkState.postValue(NetworkState.LOADING)
 
-
         try {
             compositeDisposable.add(
-                apiService.postRateMovie(movieId, key, sessionId, body)
+                apiService.getSession(key)
                     .subscribeOn(Schedulers.io())
                     .subscribe(
                         {
-                            _rateResponse.postValue(it)
+                            _sessionResponse.postValue(it)
                             _networkState.postValue(NetworkState.LOADED)
                         },
                         {
                             _networkState.postValue(NetworkState.ERROR)
-                            Log.e("rateDataSource", it.message.orEmpty())
+                            Log.e("sessionDataSource", it.message.orEmpty())
                         }
                     )
             )
 
         } catch (e: Exception) {
-            Log.e("rateDataSource", e.message.orEmpty())
+            Log.e("sessionDataSource", e.message.orEmpty())
         }
     }
 }

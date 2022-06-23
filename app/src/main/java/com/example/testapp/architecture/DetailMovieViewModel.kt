@@ -4,6 +4,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.testapp.model.DetailMovie
 import com.example.testapp.model.RateMovie
+import com.example.testapp.model.RatingValue
+import com.google.gson.JsonObject
 import io.reactivex.disposables.CompositeDisposable
 
 class DetailMovieViewModel(
@@ -19,8 +21,8 @@ class DetailMovieViewModel(
         dataMovie = detailMovieRepository.fetchMovieId(compositeDisposable, movieId, apiKey)
     }
 
-    fun postRating(apiKey: String, movieId: Int) {
-        rateMovie = rateRepository.postRateMovie(compositeDisposable, movieId, apiKey)
+    fun postRating(apiKey: String, movieId: Int, sessionId: String, body: JsonObject) {
+        rateMovie = rateRepository.postRateMovie(compositeDisposable, movieId, apiKey, sessionId, body)
     }
 
     override fun onCleared() {
