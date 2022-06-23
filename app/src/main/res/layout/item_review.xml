@@ -22,13 +22,16 @@
             android:layout_height="wrap_content"
             android:elevation="2dp"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:padding="10dp"
+            android:fontFamily="@font/raleway_font_family"
             android:text="Genre"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/tv_review"
             android:layout_width="wrap_content"
+            android:fontFamily="@font/raleway_font_family"
             android:layout_height="wrap_content"
             android:elevation="2dp"
             android:layout_margin="16dp"

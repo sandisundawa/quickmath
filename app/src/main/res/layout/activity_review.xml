@@ -11,6 +11,7 @@
     <TextView
         android:id="@+id/tv_Review"
         android:text="Reviews"
+        android:fontFamily="@font/raleway_font_family"
         android:layout_gravity="center"
         android:layout_margin="16dp"
         android:textStyle="bold"

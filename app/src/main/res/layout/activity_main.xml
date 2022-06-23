@@ -55,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/ic_baseline_search_24"
                     android:drawablePadding="8dp"
+                    android:fontFamily="@font/raleway_font_family"
                     android:hint="Search Movie"
                     android:paddingVertical="14dp"
                     android:paddingHorizontal="6dp"
