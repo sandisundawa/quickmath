@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.SeekBar
 import android.widget.SeekBar.OnSeekBarChangeListener
@@ -119,6 +120,7 @@ class DetailMovieActivity : BaseActivity() {
         val baseImage = "https://image.tmdb.org/t/p/w500"
 
         viewModel.dataMovie?.observe(this, Observer { data ->
+            binding.loadingPanel.visibility = View.GONE
             binding.tvTitleMovie.text = data.title
             binding.tvDesc.text = data.overview
             binding.tvRating.text = data.voteAverage.toString()

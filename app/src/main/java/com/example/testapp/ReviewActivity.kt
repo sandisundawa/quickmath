@@ -2,6 +2,7 @@ package com.example.testapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -37,6 +38,7 @@ class ReviewActivity : BaseActivity() {
 
     private fun setData() {
         viewModel.listReview?.observe(this, Observer { data ->
+            binding.loadingPanel.visibility = View.GONE
             val reviewAdapter = ReviewAdapter(data.results.orEmpty(), this)
             binding.rvReviews.adapter = reviewAdapter
             binding.rvReviews.layoutManager =

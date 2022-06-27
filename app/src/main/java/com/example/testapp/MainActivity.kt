@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView.OnEditorActionListener
 import androidx.lifecycle.Observer
@@ -24,6 +25,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
+import kotlin.system.exitProcess
 
 
 private lateinit var binding: ActivityMainBinding
@@ -137,6 +139,7 @@ class MainActivity : BaseActivity() {
     private fun setupTrending() {
         viewModel.listTrendingData?.observe(this, Observer { data ->
             val trendingAdapter = TrendingAdapter(data.trending, this)
+            binding.loadingPanel1.visibility = View.GONE
             binding.rvTrending.adapter = trendingAdapter
             binding.rvTrending.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -162,6 +165,7 @@ class MainActivity : BaseActivity() {
     private fun setupNowPlaying() {
         viewModel.listNowPlayingData?.observe(this, Observer { data ->
             val nowPlayingAdapter = NowPlayingAdapter(data.nowPlaying, this)
+            binding.loadingPanel2.visibility = View.GONE
             binding.rvNowShowing.adapter = nowPlayingAdapter
             binding.rvNowShowing.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
@@ -221,5 +225,21 @@ class MainActivity : BaseActivity() {
                 ) as T
             }
         })[MainActivityViewModel::class.java]
+    }
+
+    override fun onBackPressed() {
+        showConfirmDialog(
+            "Close the App",
+            "are you sure want to close the app?",
+            "yes",
+            "Cancel",
+            onPositifClicked = { closeApp() }
+        )
+
+    }
+
+    private fun closeApp() {
+        finishAffinity()
+        exitProcess(0);
     }
 }
