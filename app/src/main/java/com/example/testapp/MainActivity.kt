@@ -231,7 +231,7 @@ class MainActivity : BaseActivity() {
         showConfirmDialog(
             "Close the App",
             "are you sure want to close the app?",
-            "yes",
+            "Yes",
             "Cancel",
             onPositifClicked = { closeApp() }
         )

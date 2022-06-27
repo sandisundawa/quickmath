@@ -16,9 +16,11 @@ class DetailMovieViewModel(
     private val compositeDisposable = CompositeDisposable()
     var dataMovie: MutableLiveData<DetailMovie>? = null
     var rateMovie: MutableLiveData<RateMovie>? = null
+    var networkState: MutableLiveData<NetworkState>? = null
 
     fun getMovieDetail(apiKey: String, movieId: Int) {
         dataMovie = detailMovieRepository.fetchMovieId(compositeDisposable, movieId, apiKey)
+        networkState = detailMovieRepository.getDetailNetworkState()
     }
 
     fun postRating(apiKey: String, movieId: Int, sessionId: String, body: JsonObject) {

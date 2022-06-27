@@ -14,7 +14,7 @@ class DetailMovieDataSource(
 ) {
 
     private val _networkState = MutableLiveData<NetworkState>()
-    val networkState: LiveData<NetworkState>
+    val networkState: MutableLiveData<NetworkState>
         get() = _networkState
 
     private val _detailMovieResponse = MutableLiveData<DetailMovie>()

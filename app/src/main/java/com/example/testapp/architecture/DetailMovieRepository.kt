@@ -18,7 +18,7 @@ class DetailMovieRepository(private val apiService : ApiInterface) {
         return detailMovieDataSource.detailMovieResponse
     }
 
-    fun getGenreNetworkState(): LiveData<NetworkState> {
+    fun getDetailNetworkState(): MutableLiveData<NetworkState> {
         return detailMovieDataSource.networkState
     }
 }

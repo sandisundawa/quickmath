@@ -19,6 +19,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.testapp.architecture.DetailMovieRepository
 import com.example.testapp.architecture.DetailMovieViewModel
+import com.example.testapp.architecture.NetworkState
 import com.example.testapp.architecture.RateRepository
 import com.example.testapp.databinding.ActivityDetailMovieBinding
 import com.google.gson.JsonObject
@@ -120,7 +121,6 @@ class DetailMovieActivity : BaseActivity() {
         val baseImage = "https://image.tmdb.org/t/p/w500"
 
         viewModel.dataMovie?.observe(this, Observer { data ->
-            binding.loadingPanel.visibility = View.GONE
             binding.tvTitleMovie.text = data.title
             binding.tvDesc.text = data.overview
             binding.tvRating.text = data.voteAverage.toString()
@@ -147,6 +147,13 @@ class DetailMovieActivity : BaseActivity() {
                 startActivity(intent)
             }
 
+        })
+
+        viewModel.networkState?.observe(this, Observer {
+            if (it == NetworkState.ERROR ) {
+                binding.loadingPanel.visibility = View.GONE
+                Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+            }
         })
     }
 
