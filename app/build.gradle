@@ -80,6 +80,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android:2.35.1'
     implementation 'com.google.dagger:dagger-android-support:2.12'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.12'
+    kapt "com.google.dagger:dagger-compiler:2.12"
 
     // Google
     implementation 'com.google.android.gms:play-services-auth:20.2.0'

@@ -118,8 +118,6 @@ class DetailMovieActivity : BaseActivity() {
     }
 
     private fun setData() {
-        val baseImage = "https://image.tmdb.org/t/p/w500"
-
         viewModel.dataMovie?.observe(this, Observer { data ->
             binding.tvTitleMovie.text = data.title
             binding.tvDesc.text = data.overview
@@ -129,7 +127,7 @@ class DetailMovieActivity : BaseActivity() {
             if (data.posterPath != null) {
                 val requestOptions = RequestOptions()
                 Glide.with(this)
-                    .load(baseImage + data.posterPath)
+                    .load(getString(R.string.base_image) + data.posterPath)
                     .apply(requestOptions).into(binding.ivPoster)
             }
 

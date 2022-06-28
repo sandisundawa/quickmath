@@ -18,6 +18,8 @@ import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
+import com.example.testapp.di.ApiKey
+import com.example.testapp.di.DaggerComponent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
@@ -25,6 +27,7 @@ import com.google.firebase.iid.FirebaseInstanceId
 import com.google.firebase.iid.InstanceIdResult
 import com.google.gson.Gson
 import com.orhanobut.hawk.Hawk
+import javax.inject.Inject
 import kotlin.system.exitProcess
 
 
@@ -38,11 +41,16 @@ lateinit var searchMovieRepository: SearchMovieRepository
 lateinit var sessionRepository: SessionRepository
 
 class MainActivity : BaseActivity() {
+
+    @Inject lateinit var apiKey: ApiKey
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        DaggerComponent.create().inject(this)
 
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
@@ -52,7 +60,7 @@ class MainActivity : BaseActivity() {
 
         viewModel = getViewModel()
 
-        viewModel.getListGenre(getString(R.string.api_key))
+        viewModel.getListGenre(apiKey.getApiKey())
         viewModel.getListNowPlaying(getString(R.string.api_key))
         viewModel.getTrending(getString(R.string.api_key))
         viewModel.getSession(getString(R.string.api_key))

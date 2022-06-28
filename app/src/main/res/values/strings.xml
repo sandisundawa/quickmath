@@ -2,4 +2,5 @@
     <string name="app_name">Moviewer</string>
     <string name="api_key">2c35c921410c9727265ed66192629a38</string>
     <string name="server_client_id">1059860387593-9q7t16c673n7n7r1im30eert82u84qhp.apps.googleusercontent.com</string>
+    <string name="base_image">https://image.tmdb.org/t/p/w500</string>
 </resources>
