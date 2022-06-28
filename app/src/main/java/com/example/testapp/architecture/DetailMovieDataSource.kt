@@ -36,7 +36,7 @@ class DetailMovieDataSource(
                             _networkState.postValue(NetworkState.LOADED)
                         },
                         {
-                            _networkState.postValue(NetworkState.ERROR)
+                            _networkState.postValue(NetworkState(Status.FAILED, it.message.orEmpty()))
                             Log.e("MovieDataSource", it.message.orEmpty())
                         }
                     )

@@ -17,10 +17,7 @@ import androidx.lifecycle.ViewModelProviders
 import cn.pedant.SweetAlert.SweetAlertDialog
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.testapp.architecture.DetailMovieRepository
-import com.example.testapp.architecture.DetailMovieViewModel
-import com.example.testapp.architecture.NetworkState
-import com.example.testapp.architecture.RateRepository
+import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityDetailMovieBinding
 import com.example.testapp.di.ApiKey
 import com.example.testapp.di.DaggerComponent
@@ -156,9 +153,9 @@ class DetailMovieActivity : BaseActivity() {
         })
 
         viewModel.networkState?.observe(this, Observer {
-            if (it == NetworkState.ERROR ) {
+            if (it.status == Status.FAILED ) {
                 binding.loadingPanel.visibility = View.GONE
-                Toast.makeText(this, "Error", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, it.msg, Toast.LENGTH_LONG).show()
             }
         })
     }
