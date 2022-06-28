@@ -22,8 +22,11 @@ import com.example.testapp.architecture.DetailMovieViewModel
 import com.example.testapp.architecture.NetworkState
 import com.example.testapp.architecture.RateRepository
 import com.example.testapp.databinding.ActivityDetailMovieBinding
+import com.example.testapp.di.ApiKey
+import com.example.testapp.di.DaggerComponent
 import com.google.gson.JsonObject
 import com.orhanobut.hawk.Hawk
+import javax.inject.Inject
 
 
 private lateinit var binding: ActivityDetailMovieBinding
@@ -33,11 +36,16 @@ lateinit var detailMovieRepository: DetailMovieRepository
 lateinit var rateRepository: RateRepository
 
 class DetailMovieActivity : BaseActivity() {
+
+    @Inject lateinit var apiKey: ApiKey
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        DaggerComponent.create().injectDetail(this)
 
         Hawk.init(this).build()
         val sessionId: String = Hawk.get("sessionId")
@@ -47,7 +55,7 @@ class DetailMovieActivity : BaseActivity() {
         viewModel = getViewModel()
 
         val idMovie = intent.getStringExtra("idMovie")
-        viewModel.getMovieDetail(getString(R.string.api_key), idMovie.orEmpty().toInt())
+        viewModel.getMovieDetail(apiKey.getApiKey(), idMovie.orEmpty().toInt())
         setData()
 
         binding.btnRating.setOnClickListener {

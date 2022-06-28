@@ -50,7 +50,7 @@ class MainActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
-        DaggerComponent.create().inject(this)
+        DaggerComponent.create().injectOnMain(this)
 
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
@@ -61,9 +61,9 @@ class MainActivity : BaseActivity() {
         viewModel = getViewModel()
 
         viewModel.getListGenre(apiKey.getApiKey())
-        viewModel.getListNowPlaying(getString(R.string.api_key))
-        viewModel.getTrending(getString(R.string.api_key))
-        viewModel.getSession(getString(R.string.api_key))
+        viewModel.getListNowPlaying(apiKey.getApiKey())
+        viewModel.getTrending(apiKey.getApiKey())
+        viewModel.getSession(apiKey.getApiKey())
         setupGenre()
         setupNowPlaying()
         setupTrending()
