@@ -60,6 +60,8 @@ class MainActivity : BaseActivity() {
 
         viewModel = getViewModel()
 
+        Log.d("kesini 1", apiKey.getMesin())
+
         viewModel.getListGenre(apiKey.getApiKey())
         viewModel.getListNowPlaying(apiKey.getApiKey())
         viewModel.getTrending(apiKey.getApiKey())
