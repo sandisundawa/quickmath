@@ -18,8 +18,7 @@ import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
-import com.example.testapp.di.ApiKey
-import com.example.testapp.di.DaggerComponent
+import com.example.testapp.di.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
@@ -43,6 +42,7 @@ lateinit var sessionRepository: SessionRepository
 class MainActivity : BaseActivity() {
 
     @Inject lateinit var apiKey: ApiKey
+    private var mesinComponent: MesinComponent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +50,15 @@ class MainActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
+        // Testing dagger2
         DaggerComponent.create().injectOnMain(this)
+        Log.d("kesini 1", apiKey.getMesin())
+
+        // with @Scope
+        val house = House()
+        mesinComponent = DaggerMesinComponent.create()
+        mesinComponent!!.inject(house)
+        Log.d("kesini 2", house.uniqueMesin.jumlah.toString())
 
         genreRepository = GenreRepository(apiService)
         nowPlayingRepository = NowPlayingRepository(apiService)
@@ -60,19 +68,19 @@ class MainActivity : BaseActivity() {
 
         viewModel = getViewModel()
 
-        Log.d("kesini 1", apiKey.getMesin())
+
 
         viewModel.getListGenre(apiKey.getApiKey())
         viewModel.getListNowPlaying(apiKey.getApiKey())
         viewModel.getTrending(apiKey.getApiKey())
         viewModel.getSession(apiKey.getApiKey())
-        setupGenre()
-        setupNowPlaying()
-        setupTrending()
+
+        observeGenre()
+        observeNowPlaying()
+        observeTrending()
         observeSession()
 
         setUI()
-
         getFCMToken()
     }
 
@@ -146,7 +154,7 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    private fun setupTrending() {
+    private fun observeTrending() {
         viewModel.listTrendingData?.observe(this, Observer { data ->
             val trendingAdapter = TrendingAdapter(data.trending, this)
             binding.loadingPanel1.visibility = View.GONE
@@ -172,7 +180,7 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    private fun setupNowPlaying() {
+    private fun observeNowPlaying() {
         viewModel.listNowPlayingData?.observe(this, Observer { data ->
             val nowPlayingAdapter = NowPlayingAdapter(data.nowPlaying, this)
             binding.loadingPanel2.visibility = View.GONE
@@ -198,7 +206,7 @@ class MainActivity : BaseActivity() {
         })
     }
 
-    private fun setupGenre() {
+    private fun observeGenre() {
         viewModel.listGenreData?.observe(this, Observer { data ->
             val genreAdapter = GenreAdapter(data.genres, this, false)
             binding.rvGenre.adapter = genreAdapter
