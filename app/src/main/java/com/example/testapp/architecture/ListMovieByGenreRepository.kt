@@ -6,14 +6,20 @@ import com.example.testapp.api.ApiInterface
 import com.example.testapp.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
-class ListMovieByGenreRepository (private val apiService : ApiInterface) {
+class ListMovieByGenreRepository(private val apiService: ApiInterface) {
 
     lateinit var listMovieByGenreDataSource: ListMovieByGenreDataSource
 
-    fun fetchMovies (compositeDisposable: CompositeDisposable, key: String, genre: String) : MutableLiveData<Movie> {
+    fun fetchMovies(
+        compositeDisposable: CompositeDisposable,
+        key: String,
+        genre: String,
+        sortBy: String,
+        region: String
+    ): MutableLiveData<Movie> {
 
-        listMovieByGenreDataSource = ListMovieByGenreDataSource(apiService,compositeDisposable)
-        listMovieByGenreDataSource.fetchMoviesByGanre(key, genre)
+        listMovieByGenreDataSource = ListMovieByGenreDataSource(apiService, compositeDisposable)
+        listMovieByGenreDataSource.fetchDiscoverMovie(key, genre, sortBy, region)
 
         return listMovieByGenreDataSource.movieResponse
     }

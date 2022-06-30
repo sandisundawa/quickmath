@@ -21,13 +21,13 @@ class ListMovieByGenreDataSource(
     val movieResponse: MutableLiveData<Movie>
         get() = _movieResponse
 
-    fun fetchMoviesByGanre(key: String, genre: String) {
+    fun fetchDiscoverMovie(key: String, genre: String, sortBy: String, region: String) {
 
         _networkState.postValue(NetworkState.LOADING)
 
         try {
             compositeDisposable.add(
-                apiService.getMovie(key, genre)
+                apiService.getMovie(key, genre, sortBy, region)
                     .subscribeOn(Schedulers.io())
                     .subscribe(
                         {

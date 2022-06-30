@@ -14,7 +14,9 @@ interface ApiInterface {
     @GET("discover/movie")
     fun getMovie(
         @Query("api_key") apiKey: String?,
-        @Query("with_genres") withGenres: String?
+        @Query("with_genres") withGenres: String? = null,
+        @Query("sort_by") sortBy: String? = null,
+        @Query("region") region: String? = null
     ): Observable<Movie?>
 
     @GET("search/movie")

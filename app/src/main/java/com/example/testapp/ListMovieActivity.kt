@@ -43,11 +43,11 @@ class ListMovieActivity : BaseActivity() {
         val genre = intent.getStringExtra("genreId")
 
         if (genre != null) {
-            viewModel.getListMovieByGenre(getString(R.string.api_key), genre.orEmpty())
+            viewModel.getDiscoverMovie(getString(R.string.api_key), genre.orEmpty())
             setupMovies()
+        } else {
+            getListMovieByQuery()
         }
-
-        getListMovieByQuery()
 
     }
 

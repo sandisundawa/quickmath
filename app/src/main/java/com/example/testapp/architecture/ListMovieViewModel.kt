@@ -12,8 +12,19 @@ class ListMovieViewModel(
     private val compositeDisposable = CompositeDisposable()
     var listMovie: MutableLiveData<Movie>? = null
 
-    fun getListMovieByGenre(apiKey: String, genre: String) {
-        listMovie = listMovieByGenreRepository.fetchMovies(compositeDisposable, apiKey, genre)
+    fun getDiscoverMovie(
+        apiKey: String,
+        genre: String? = null,
+        sortBy: String? = null,
+        region: String? = null
+    ) {
+        listMovie = listMovieByGenreRepository.fetchMovies(
+            compositeDisposable,
+            apiKey,
+            genre.orEmpty(),
+            sortBy.orEmpty(),
+            region.orEmpty()
+        )
     }
 
     override fun onCleared() {
