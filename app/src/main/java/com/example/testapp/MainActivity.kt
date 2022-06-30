@@ -19,6 +19,7 @@ import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.di.*
+import com.example.testapp.model.Genre
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
@@ -43,6 +44,7 @@ class MainActivity : BaseActivity() {
 
     @Inject lateinit var apiKey: ApiKey
     private var mesinComponent: MesinComponent? = null
+    private var listGenre : List<Genre>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,6 +107,10 @@ class MainActivity : BaseActivity() {
         binding.ivLogout.setOnClickListener {
             showConfirmDialog("Logout", "Are you sure want to Logout?",
                 "Yes", "Cancel", onPositifClicked = { signOut() })
+        }
+
+        binding.ivFilter.setOnClickListener {
+
         }
     }
 
@@ -212,6 +218,8 @@ class MainActivity : BaseActivity() {
             binding.rvGenre.adapter = genreAdapter
             binding.rvGenre.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+            listGenre = data.genres
 
             binding.seeMoreGenre.setOnClickListener {
                 val toGenre = Intent(this, GenreActivity::class.java)
