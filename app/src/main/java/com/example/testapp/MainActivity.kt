@@ -13,13 +13,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.NowPlayingAdapter
 import com.example.testapp.adapter.TrendingAdapter
 import com.example.testapp.architecture.*
 import com.example.testapp.databinding.ActivityMainBinding
 import com.example.testapp.di.*
+import com.example.testapp.localdb.AppLocalDatabase
 import com.example.testapp.model.Genre
+import com.example.testapp.model.Result
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
@@ -44,7 +47,7 @@ class MainActivity : BaseActivity() {
 
     @Inject lateinit var apiKey: ApiKey
     private var mesinComponent: MesinComponent? = null
-    private var listGenre : List<Genre>? = null
+    private var listData : List<Result>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -195,6 +198,20 @@ class MainActivity : BaseActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
 
+            listData = data.nowPlaying
+            val db = Room.databaseBuilder(
+                applicationContext,
+                AppLocalDatabase::class.java, "movie_db"
+            ).build()
+
+            val movieDao = db.movieDao()
+            Thread {
+                //Do your database´s operations here
+                movieDao.insertData(listData!![0])
+            }.start()
+
+
+
             binding.seeMoreNowPlaying.setOnClickListener {
                 val toMovieList = Intent(this, ListMovieActivity::class.java)
 
@@ -218,8 +235,6 @@ class MainActivity : BaseActivity() {
             binding.rvGenre.adapter = genreAdapter
             binding.rvGenre.layoutManager =
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-
-            listGenre = data.genres
 
             binding.seeMoreGenre.setOnClickListener {
                 val toGenre = Intent(this, GenreActivity::class.java)

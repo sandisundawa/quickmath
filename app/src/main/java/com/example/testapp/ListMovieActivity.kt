@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.room.Room
 import com.example.testapp.adapter.GenreAdapter
 import com.example.testapp.adapter.MoviesAdapter
 import com.example.testapp.api.ApiClient
@@ -18,6 +19,7 @@ import com.example.testapp.api.ApiInterface
 import com.example.testapp.architecture.ListMovieByGenreRepository
 import com.example.testapp.architecture.ListMovieViewModel
 import com.example.testapp.databinding.ActivityListMovieBinding
+import com.example.testapp.localdb.AppLocalDatabase
 import com.example.testapp.model.Genre
 import com.example.testapp.model.Result
 import com.google.gson.Gson
@@ -38,6 +40,19 @@ class ListMovieActivity : BaseActivity() {
 
         listMovieByGenreRepository = ListMovieByGenreRepository(apiService)
         viewModel = getViewModel()
+
+        val db = Room.databaseBuilder(
+            applicationContext,
+            AppLocalDatabase::class.java, "movie_db"
+        ).build()
+
+        val userDao = db.movieDao()
+
+        Thread {
+            val users: List<Result> = userDao.getAllNowPlaying()
+            Log.d("kesini", users.toString())
+        }.start()
+
 
         val intent = intent
         val genre = intent.getStringExtra("genreId")
