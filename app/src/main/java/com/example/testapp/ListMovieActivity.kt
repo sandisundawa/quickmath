@@ -41,18 +41,11 @@ class ListMovieActivity : BaseActivity() {
         listMovieByGenreRepository = ListMovieByGenreRepository(apiService)
         viewModel = getViewModel()
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppLocalDatabase::class.java, "movie_db"
-        ).build()
-
-        val userDao = db.movieDao()
-
+        val movieDao = initLocalDB(this)
         Thread {
-            val users: List<Result> = userDao.getAllNowPlaying()
+            val users: List<Result> = movieDao.getAllNowPlaying()
             Log.d("kesini", users.toString())
         }.start()
-
 
         val intent = intent
         val genre = intent.getStringExtra("genreId")

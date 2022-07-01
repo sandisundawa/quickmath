@@ -198,16 +198,13 @@ class MainActivity : BaseActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
             Log.d("kesini", data.nowPlaying.toString())
 
+            val movieDao = initLocalDB(this)
             listData = data.nowPlaying
-            val db = Room.databaseBuilder(
-                applicationContext,
-                AppLocalDatabase::class.java, "movie_db"
-            ).build()
-
-            val movieDao = db.movieDao()
             Thread {
                 //Do your database´s operations here
-                movieDao.insertData(listData!![0])
+                listData!!.forEach {
+                    movieDao.insertData(it)
+                }
             }.start()
 
 
