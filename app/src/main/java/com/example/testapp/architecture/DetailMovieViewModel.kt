@@ -2,6 +2,7 @@ package com.example.testapp.architecture
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testapp.api.ApiClient
 import com.example.testapp.model.DetailMovie
 import com.example.testapp.model.RateMovie
 import com.example.testapp.model.RatingValue
@@ -9,8 +10,8 @@ import com.google.gson.JsonObject
 import io.reactivex.disposables.CompositeDisposable
 
 class DetailMovieViewModel(
-    private val detailMovieRepository: DetailMovieRepository,
-    private val rateRepository: RateRepository
+    private val detailMovieRepository: DetailMovieRepository = DetailMovieRepository(ApiClient.getClient()),
+    private val rateRepository: RateRepository = RateRepository(ApiClient.getClient())
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

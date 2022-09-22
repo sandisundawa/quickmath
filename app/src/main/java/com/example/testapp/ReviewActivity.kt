@@ -17,17 +17,15 @@ import com.example.testapp.databinding.ActivityReviewBinding
 
 private lateinit var binding: ActivityReviewBinding
 
-private lateinit var viewModel: ReviewViewModel
-lateinit var repository: ReviewRepository
-
 class ReviewActivity : BaseActivity() {
+
+    private lateinit var viewModel: ReviewViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityReviewBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        repository = ReviewRepository(apiService)
-        viewModel = getViewModel()
+        viewModel = ViewModelProvider(this).get(ReviewViewModel::class.java)
 
         val idMovie = intent.getStringExtra("idMovie")
         viewModel.getReviews(getString(R.string.api_key), idMovie.orEmpty().toInt())
@@ -45,14 +43,5 @@ class ReviewActivity : BaseActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
 
         })
-    }
-
-    private fun getViewModel(): ReviewViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return ReviewViewModel(repository) as T
-            }
-        })[ReviewViewModel::class.java]
     }
 }

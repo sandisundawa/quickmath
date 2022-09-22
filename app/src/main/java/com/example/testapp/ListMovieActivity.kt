@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
@@ -28,18 +29,16 @@ import com.google.gson.reflect.TypeToken
 
 private lateinit var binding: ActivityListMovieBinding
 
-private lateinit var viewModel: ListMovieViewModel
-lateinit var listMovieByGenreRepository: ListMovieByGenreRepository
-
 class ListMovieActivity : BaseActivity() {
+
+    private lateinit var viewModel: ListMovieViewModel
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListMovieBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
-        listMovieByGenreRepository = ListMovieByGenreRepository(apiService)
-        viewModel = getViewModel()
+        viewModel = ViewModelProvider(this).get(ListMovieViewModel::class.java)
 
         val movieDao = initLocalDB(this)
         Thread {
@@ -86,14 +85,4 @@ class ListMovieActivity : BaseActivity() {
                 LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         })
     }
-
-    private fun getViewModel(): ListMovieViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return ListMovieViewModel(listMovieByGenreRepository) as T
-            }
-        })[ListMovieViewModel::class.java]
-    }
-
 }

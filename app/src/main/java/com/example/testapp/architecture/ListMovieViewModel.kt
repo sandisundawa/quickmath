@@ -2,11 +2,14 @@ package com.example.testapp.architecture
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testapp.api.ApiClient
 import com.example.testapp.model.Movie
 import io.reactivex.disposables.CompositeDisposable
 
 class ListMovieViewModel(
-    private val listMovieByGenreRepository: ListMovieByGenreRepository
+    private val listMovieByGenreRepository: ListMovieByGenreRepository = ListMovieByGenreRepository(
+        ApiClient.getClient()
+    )
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

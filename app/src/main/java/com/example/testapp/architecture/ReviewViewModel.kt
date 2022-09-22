@@ -2,10 +2,11 @@ package com.example.testapp.architecture
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testapp.api.ApiClient
 import com.example.testapp.model.Review
 import io.reactivex.disposables.CompositeDisposable
 
-class ReviewViewModel(private val reviewRepository: ReviewRepository
+class ReviewViewModel(private val reviewRepository: ReviewRepository = ReviewRepository(ApiClient.getClient())
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()

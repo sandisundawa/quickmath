@@ -36,15 +36,9 @@ import kotlin.system.exitProcess
 
 private lateinit var binding: ActivityMainBinding
 
-private lateinit var viewModel: MainActivityViewModel
-lateinit var genreRepository: GenreRepository
-lateinit var nowPlayingRepository: NowPlayingRepository
-lateinit var trendingRepository: TrendingRepository
-lateinit var searchMovieRepository: SearchMovieRepository
-lateinit var sessionRepository: SessionRepository
-
 class MainActivity : BaseActivity() {
 
+    private lateinit var viewModel: MainActivityViewModel
     @Inject lateinit var apiKey: ApiKey
     private var mesinComponent: MesinComponent? = null
     private var listData : List<Result>? = null
@@ -55,6 +49,8 @@ class MainActivity : BaseActivity() {
         val view = binding.root
         setContentView(view)
 
+        viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
+
         // Testing dagger2
         DaggerComponent.create().injectOnMain(this)
         Log.d("kesini 1", apiKey.getMesin())
@@ -64,16 +60,6 @@ class MainActivity : BaseActivity() {
         mesinComponent = DaggerMesinComponent.create()
         mesinComponent!!.inject(house)
         Log.d("kesini 2", house.uniqueMesin.jumlah.toString())
-
-        genreRepository = GenreRepository(apiService)
-        nowPlayingRepository = NowPlayingRepository(apiService)
-        trendingRepository = TrendingRepository(apiService)
-        searchMovieRepository = SearchMovieRepository(apiService)
-        sessionRepository = SessionRepository(apiService)
-
-        viewModel = getViewModel()
-
-
 
         viewModel.getListGenre(apiKey.getApiKey())
         viewModel.getListNowPlaying(apiKey.getApiKey())
@@ -248,21 +234,6 @@ class MainActivity : BaseActivity() {
                 startActivity(toGenre)
             }
         })
-    }
-
-    private fun getViewModel(): MainActivityViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return MainActivityViewModel(
-                    genreRepository,
-                    nowPlayingRepository,
-                    trendingRepository,
-                    searchMovieRepository,
-                    sessionRepository
-                ) as T
-            }
-        })[MainActivityViewModel::class.java]
     }
 
     override fun onBackPressed() {

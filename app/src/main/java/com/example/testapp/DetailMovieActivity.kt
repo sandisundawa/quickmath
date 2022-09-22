@@ -28,28 +28,22 @@ import javax.inject.Inject
 
 private lateinit var binding: ActivityDetailMovieBinding
 
-private lateinit var viewModel: DetailMovieViewModel
-lateinit var detailMovieRepository: DetailMovieRepository
-lateinit var rateRepository: RateRepository
-
 class DetailMovieActivity : BaseActivity() {
 
-    @Inject lateinit var apiKey: ApiKey
+    private lateinit var viewModel: DetailMovieViewModel
+    @Inject
+    lateinit var apiKey: ApiKey
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailMovieBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
-
+        viewModel = ViewModelProvider(this).get(DetailMovieViewModel::class.java)
         DaggerComponent.create().injectDetail(this)
 
         Hawk.init(this).build()
         val sessionId: String = Hawk.get("sessionId")
-
-        detailMovieRepository = DetailMovieRepository(apiService)
-        rateRepository = RateRepository(apiService)
-        viewModel = getViewModel()
 
         val idMovie = intent.getStringExtra("idMovie")
         viewModel.getMovieDetail(apiKey.getApiKey(), idMovie.orEmpty().toInt())
@@ -153,19 +147,10 @@ class DetailMovieActivity : BaseActivity() {
         })
 
         viewModel.networkState?.observe(this, Observer {
-            if (it.status == Status.FAILED ) {
+            if (it.status == Status.FAILED) {
                 binding.loadingPanel.visibility = View.GONE
                 Toast.makeText(this, it.msg, Toast.LENGTH_LONG).show()
             }
         })
-    }
-
-    private fun getViewModel(): DetailMovieViewModel {
-        return ViewModelProviders.of(this, object : ViewModelProvider.Factory {
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                @Suppress("UNCHECKED_CAST")
-                return DetailMovieViewModel(detailMovieRepository, rateRepository) as T
-            }
-        })[DetailMovieViewModel::class.java]
     }
 }

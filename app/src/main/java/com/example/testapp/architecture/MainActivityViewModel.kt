@@ -2,16 +2,17 @@ package com.example.testapp.architecture
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.testapp.api.ApiClient
 import com.example.testapp.model.*
 import io.reactivex.disposables.CompositeDisposable
 import retrofit2.http.Query
 
 class MainActivityViewModel(
-    private val genreRepository: GenreRepository,
-    private val nowPlayingRepository: NowPlayingRepository,
-    private val trendingRepository: TrendingRepository,
-    private val searchMovieRepository: SearchMovieRepository,
-    private val sessionRepository: SessionRepository
+    private val genreRepository: GenreRepository = GenreRepository(ApiClient.getClient()),
+    private val nowPlayingRepository: NowPlayingRepository = NowPlayingRepository(ApiClient.getClient()),
+    private val trendingRepository: TrendingRepository = TrendingRepository(ApiClient.getClient()),
+    private val searchMovieRepository: SearchMovieRepository = SearchMovieRepository(ApiClient.getClient()),
+    private val sessionRepository: SessionRepository = SessionRepository(ApiClient.getClient())
 ) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
