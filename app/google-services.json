@@ -71,6 +71,35 @@
           ]
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1059860387593:android:0f2e5980b2bc0faaa6a5d8",
+        "android_client_info": {
+          "package_name": "com.moviewers.testapp.testapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1059860387593-25pj41fqqg83t5228su9gvvdsjlddgn7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0IzqDXJJjzQ-7BZ8hflwesf7aO0GSOcg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1059860387593-25pj41fqqg83t5228su9gvvdsjlddgn7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
     }
   ],
   "configuration_version": "1"
